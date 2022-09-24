@@ -1,18 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../widgets/custom_textfield_widget.dart';
 
-class AddEmployeePage extends StatelessWidget {
+class AddEmployeePage extends StatefulWidget {
   static const String routeName = '/addEmployee';
-  AddEmployeePage({super.key});
+  const AddEmployeePage({super.key});
 
+  @override
+  State<AddEmployeePage> createState() => _AddEmployeePageState();
+}
+
+class _AddEmployeePageState extends State<AddEmployeePage> {
   final _formKey = GlobalKey<FormState>();
+
   final _nameController = TextEditingController();
+
   final _firstNameController = TextEditingController();
 
   final _lastNameController = TextEditingController();
 
   final _dateOfBirthDayController = TextEditingController();
+
+  Future pickDateOfBirth(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(initialDate.year - 100),
+      lastDate: DateTime(initialDate.year + 100),
+      confirmText: 'Select',
+      builder: (context, child) {
+        return Theme(
+            data: ThemeData().copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: Colors.pink,
+                onPrimary: Colors.white,
+                surface: Colors.black,
+              ),
+              dialogBackgroundColor: Colors.white,
+            ),
+            child: child ?? const SizedBox());
+      },
+    );
+    if (newDate == null) return;
+    setState(() {
+      _dateOfBirthDayController.text = DateFormat('dd-MM-yyyy').format(newDate);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +90,21 @@ class AddEmployeePage extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
-              CustomTextField(
+              TextFormField(
+                readOnly: true,
                 controller: _dateOfBirthDayController,
-                name: 'Date of BirthDay',
+                keyboardType: TextInputType.name,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                onTap: () => pickDateOfBirth(context),
+                decoration: const InputDecoration(
+                  labelText: 'date of birth',
+                  border: OutlineInputBorder(),
+                ),
               ),
               const SizedBox(
                 height: 50,
