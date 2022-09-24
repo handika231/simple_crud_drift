@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_drift/page/add_employee_page.dart';
 
 class HomePage extends StatelessWidget {
   static const String routeName = '/home';
@@ -7,6 +8,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, AddEmployeePage.routeName);
+        },
+        child: const Icon(Icons.add),
+      ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
@@ -20,12 +27,6 @@ class HomePage extends StatelessWidget {
             Text(
               'Home Page',
               style: Theme.of(context).textTheme.headline4,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/addEmployee');
-              },
-              child: const Text('Add Employee'),
             ),
           ],
         ),

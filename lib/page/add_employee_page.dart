@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/custom_textfield_widget.dart';
+
 class AddEmployeePage extends StatelessWidget {
   static const String routeName = '/addEmployee';
   AddEmployeePage({super.key});
 
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+
+  final _lastNameController = TextEditingController();
+
+  final _dateOfBirthDayController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +32,35 @@ class AddEmployeePage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
-          child: Column(
+          child: ListView(
             children: [
-              TextFormField(
-                keyboardType: TextInputType.name,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  border: OutlineInputBorder(),
-                ),
+              CustomTextField(
+                controller: _nameController,
+                name: 'Username',
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              CustomTextField(
+                controller: _firstNameController,
+                name: 'First Name',
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              CustomTextField(
+                controller: _lastNameController,
+                name: 'Last Name',
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              CustomTextField(
+                controller: _dateOfBirthDayController,
+                name: 'Date of BirthDay',
+              ),
+              const SizedBox(
+                height: 50,
               ),
             ],
           ),
