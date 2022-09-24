@@ -21,12 +21,13 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
   final _lastNameController = TextEditingController();
 
   final _dateOfBirthDayController = TextEditingController();
+  DateTime? _dateOfBirth;
 
   Future pickDateOfBirth(BuildContext context) async {
     final initialDate = DateTime.now();
     final newDate = await showDatePicker(
       context: context,
-      initialDate: initialDate,
+      initialDate: _dateOfBirth ?? initialDate,
       firstDate: DateTime(initialDate.year - 100),
       lastDate: DateTime(initialDate.year + 100),
       confirmText: 'Select',
@@ -45,6 +46,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
     );
     if (newDate == null) return;
     setState(() {
+      _dateOfBirth = newDate;
       _dateOfBirthDayController.text = DateFormat('dd-MM-yyyy').format(newDate);
     });
   }
