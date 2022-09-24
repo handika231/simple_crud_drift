@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:simple_drift/widgets/custom_datetime_widget.dart';
 
 import '../widgets/custom_textfield_widget.dart';
 
@@ -33,15 +34,16 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
       confirmText: 'Select',
       builder: (context, child) {
         return Theme(
-            data: ThemeData().copyWith(
-              colorScheme: const ColorScheme.light(
-                primary: Colors.pink,
-                onPrimary: Colors.white,
-                surface: Colors.black,
-              ),
-              dialogBackgroundColor: Colors.white,
+          data: ThemeData().copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Colors.pink,
+              onPrimary: Colors.white,
+              surface: Colors.black,
             ),
-            child: child ?? const SizedBox());
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: child ?? const SizedBox(),
+        );
       },
     );
     if (newDate == null) return;
@@ -92,21 +94,9 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
               const SizedBox(
                 height: 12,
               ),
-              TextFormField(
-                readOnly: true,
+              CustomDateTimeWidget(
                 controller: _dateOfBirthDayController,
-                keyboardType: TextInputType.name,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-                onTap: () => pickDateOfBirth(context),
-                decoration: const InputDecoration(
-                  labelText: 'date of birth',
-                  border: OutlineInputBorder(),
-                ),
+                onPressed: () => pickDateOfBirth(context),
               ),
               const SizedBox(
                 height: 50,
