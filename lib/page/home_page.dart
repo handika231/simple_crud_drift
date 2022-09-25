@@ -50,6 +50,23 @@ class _HomePageState extends State<HomePage> {
                   employee.dateOfBirth.toLocal(),
                 );
                 return ListTile(
+                  trailing: IconButton(
+                    onPressed: () async {
+                      await _appDB.deleteEmployee(employee.id).then((value) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Employee Deleted'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      });
+                      setState(() {});
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                  ),
                   onTap: () {
                     Navigator.pushNamed(
                       context,
