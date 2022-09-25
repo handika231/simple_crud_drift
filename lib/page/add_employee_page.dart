@@ -1,5 +1,7 @@
+import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:simple_drift/data/local/db/app_db.dart';
 import 'package:simple_drift/widgets/custom_datetime_widget.dart';
 
 import '../widgets/custom_textfield_widget.dart';
@@ -22,7 +24,13 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
   final _lastNameController = TextEditingController();
 
   final _dateOfBirthDayController = TextEditingController();
+  late AppDB _appDB;
   DateTime? _dateOfBirth;
+  @override
+  void initState() {
+    super.initState();
+    _appDB = AppDB();
+  }
 
   Future pickDateOfBirth(BuildContext context) async {
     final initialDate = DateTime.now();
@@ -61,7 +69,28 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              final entity = EmployeeCompanion(
+                userName: Value(_nameController.text),
+                firstName: Value(_firstNameController.text),
+                lastName: Value(_lastNameController.text),
+                dateOfBirth: Value(_dateOfBirth!),
+              );
+              _appDB.insertEmployee(entity).then(
+                    (value) => ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Employee added successfully',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                  );
+            },
             icon: const Icon(Icons.save),
           ),
         ],
