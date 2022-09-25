@@ -8,7 +8,8 @@ import '../widgets/custom_textfield_widget.dart';
 
 class EditEmployeePage extends StatefulWidget {
   static const String routeName = '/editEmployee';
-  const EditEmployeePage({super.key});
+  final int args;
+  const EditEmployeePage({super.key, required this.args});
 
   @override
   State<EditEmployeePage> createState() => _EditEmployeePageState();
