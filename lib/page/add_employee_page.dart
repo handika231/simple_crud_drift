@@ -24,12 +24,22 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
   final _lastNameController = TextEditingController();
 
   final _dateOfBirthDayController = TextEditingController();
-  late AppDB _appDB;
   DateTime? _dateOfBirth;
+  late AppDB _appDB;
   @override
   void initState() {
     super.initState();
     _appDB = AppDB();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _dateOfBirthDayController.dispose();
+    _appDB.close();
+    super.dispose();
   }
 
   Future pickDateOfBirth(BuildContext context) async {
@@ -70,26 +80,11 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
         actions: [
           IconButton(
             onPressed: () {
-              final entity = EmployeeCompanion(
-                userName: Value(_nameController.text),
-                firstName: Value(_firstNameController.text),
-                lastName: Value(_lastNameController.text),
-                dateOfBirth: Value(_dateOfBirth!),
+              addDataEmployee().then(
+                (_) {
+                  Navigator.pop(context);
+                },
               );
-              _appDB.insertEmployee(entity).then(
-                    (value) => ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'Employee added successfully',
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
-                        behavior: SnackBarBehavior.floating,
-                        backgroundColor: Colors.white,
-                      ),
-                    ),
-                  );
             },
             icon: const Icon(Icons.save),
           ),
@@ -135,5 +130,34 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
         ),
       ),
     );
+  }
+
+  Future addDataEmployee() async {
+    final entity = EmployeeCompanion(
+      userName: Value(_nameController.text),
+      firstName: Value(_firstNameController.text),
+      lastName: Value(_lastNameController.text),
+      dateOfBirth: Value(_dateOfBirth!),
+    );
+    _appDB.insertEmployee(entity).then(
+          (value) => ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text(
+                'Employee added successfully',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              action: SnackBarAction(
+                label: 'Ok',
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                },
+              ),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.white,
+            ),
+          ),
+        );
   }
 }
