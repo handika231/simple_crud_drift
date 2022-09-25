@@ -60,6 +60,13 @@ class _HomePageState extends State<HomePage> {
                   employee.dateOfBirth.toLocal(),
                 );
                 return ListTile(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AddEmployeePage.routeName,
+                      arguments: employee.id,
+                    );
+                  },
                   title: Text(employee.userName),
                   subtitle: Text(dateOfBirth),
                 );

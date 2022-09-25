@@ -1,4 +1,3 @@
-import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_drift/data/local/db/app_db.dart';
@@ -31,6 +30,7 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
   void initState() {
     super.initState();
     _appDB = AppDB();
+    getEmployee();
   }
 
   @override
@@ -41,6 +41,16 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
     _dateOfBirthDayController.dispose();
     _appDB.close();
     super.dispose();
+  }
+
+  Future<void> getEmployee() async {
+    final employee = await _appDB.getEmployeeById(widget.args);
+    _nameController.text = employee.name;
+    _firstNameController.text = employee.firstName;
+    _lastNameController.text = employee.lastName;
+    _dateOfBirthDayController.text =
+        DateFormat('dd/MM/yyyy').format(employee.dateOfBirth);
+    _dateOfBirth = employee.dateOfBirth;
   }
 
   Future pickDateOfBirth(BuildContext context) async {
@@ -76,21 +86,15 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey,
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {
-              addDataEmployee().then(
-                (_) {
-                  Navigator.pop(context);
-                },
-              );
-            },
+            onPressed: () {},
             icon: const Icon(Icons.save),
           ),
         ],
-        title: const Text('Add Employee'),
+        title: const Text('EDIT Employee'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -131,34 +135,5 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
         ),
       ),
     );
-  }
-
-  Future addDataEmployee() async {
-    final entity = EmployeeCompanion(
-      userName: Value(_nameController.text),
-      firstName: Value(_firstNameController.text),
-      lastName: Value(_lastNameController.text),
-      dateOfBirth: Value(_dateOfBirth!),
-    );
-    _appDB.insertEmployee(entity).then(
-          (value) => ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text(
-                'Employee added successfully',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              action: SnackBarAction(
-                label: 'Ok',
-                onPressed: () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                },
-              ),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.white,
-            ),
-          ),
-        );
   }
 }
