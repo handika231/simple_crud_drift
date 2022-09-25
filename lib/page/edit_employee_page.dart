@@ -82,13 +82,15 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
         actions: [
           IconButton(
             onPressed: () {
-              editEmployee().then((value) {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  HomePage.routeName,
-                  (route) => false,
-                );
-              });
+              if (_formKey.currentState!.validate()) {
+                editEmployee().then((value) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    HomePage.routeName,
+                    (route) => false,
+                  );
+                });
+              }
             },
             icon: const Icon(Icons.save),
           ),

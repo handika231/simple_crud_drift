@@ -74,11 +74,13 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
         actions: [
           IconButton(
             onPressed: () {
-              addDataEmployee().then(
-                (_) {
-                  Navigator.pop(context);
-                },
-              );
+              if (_formKey.currentState!.validate()) {
+                addDataEmployee().then(
+                  (_) {
+                    Navigator.pop(context);
+                  },
+                );
+              }
             },
             icon: const Icon(Icons.save),
           ),
