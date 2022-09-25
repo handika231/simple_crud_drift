@@ -1,16 +1,21 @@
-# simple_drift
 
-A new Flutter project.
+# Description
+Simple CRUD using Drift SQL database and Flutter
 
-## Getting Started
+# Features
+## Package
 
-This project is a starting point for a Flutter application.
+- drift_dev
+- drift
+- intl
+- build_runner
+- sqlite3_flutter_libs
+- path_provider
+- path
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+# Tech Used
+ ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white) ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white) ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
