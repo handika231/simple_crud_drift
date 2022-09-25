@@ -25,12 +25,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
 
   final _dateOfBirthDayController = TextEditingController();
   DateTime? _dateOfBirth;
-  late AppDB _appDB;
-  @override
-  void initState() {
-    super.initState();
-    _appDB = AppDB();
-  }
+  final AppDB _appDB = AppDB.singleton;
 
   @override
   void dispose() {
@@ -38,7 +33,6 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _dateOfBirthDayController.dispose();
-    _appDB.close();
     super.dispose();
   }
 

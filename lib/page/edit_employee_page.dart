@@ -25,11 +25,10 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
 
   final _dateOfBirthDayController = TextEditingController();
   DateTime? _dateOfBirth;
-  late AppDB _appDB;
+  final AppDB _appDB = AppDB.singleton;
   @override
   void initState() {
     super.initState();
-    _appDB = AppDB();
     getEmployee();
   }
 
@@ -40,17 +39,8 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
     _lastNameController.dispose();
     _dateOfBirthDayController.dispose();
     _appDB.close();
-    super.dispose();
-  }
 
-  Future<void> getEmployee() async {
-    final employee = await _appDB.getEmployeeById(widget.args);
-    _nameController.text = employee.name;
-    _firstNameController.text = employee.firstName;
-    _lastNameController.text = employee.lastName;
-    _dateOfBirthDayController.text =
-        DateFormat('dd/MM/yyyy').format(employee.dateOfBirth);
-    _dateOfBirth = employee.dateOfBirth;
+    super.dispose();
   }
 
   Future pickDateOfBirth(BuildContext context) async {
@@ -135,5 +125,15 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
         ),
       ),
     );
+  }
+
+  Future<void> getEmployee() async {
+    EmployeeData employee = await _appDB.getEmployeeById(widget.args);
+    _nameController.text = employee.userName;
+    _firstNameController.text = employee.firstName;
+    _lastNameController.text = employee.lastName;
+    _dateOfBirthDayController.text =
+        DateFormat('dd/MM/yyyy').format(employee.dateOfBirth);
+    _dateOfBirth = employee.dateOfBirth;
   }
 }

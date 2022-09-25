@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_drift/data/local/db/app_db.dart';
 import 'package:simple_drift/page/add_employee_page.dart';
+import 'package:simple_drift/page/edit_employee_page.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = '/home';
@@ -12,18 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late AppDB _appDB;
-  @override
-  void initState() {
-    super.initState();
-    _appDB = AppDB();
-  }
-
-  @override
-  void dispose() {
-    _appDB.close();
-    super.dispose();
-  }
+  final AppDB _appDB = AppDB.singleton;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AddEmployeePage.routeName,
+                      EditEmployeePage.routeName,
                       arguments: employee.id,
                     );
                   },

@@ -18,7 +18,10 @@ LazyDatabase openConnection() {
 
 @DriftDatabase(tables: [Employee])
 class AppDB extends _$AppDB {
-  AppDB() : super(openConnection());
+  //create singleton
+  static final AppDB singleton = AppDB._internal();
+  factory AppDB() => singleton;
+  AppDB._internal() : super(openConnection());
 
   @override
   int get schemaVersion => 1;
