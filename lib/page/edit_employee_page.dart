@@ -1,6 +1,8 @@
+import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_drift/data/local/db/app_db.dart';
+import 'package:simple_drift/page/home_page.dart';
 import 'package:simple_drift/widgets/custom_datetime_widget.dart';
 
 import '../widgets/custom_textfield_widget.dart';
@@ -38,7 +40,6 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _dateOfBirthDayController.dispose();
-    _appDB.close();
 
     super.dispose();
   }
@@ -80,7 +81,15 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              editEmployee().then((value) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  HomePage.routeName,
+                  (route) => false,
+                );
+              });
+            },
             icon: const Icon(Icons.save),
           ),
         ],
@@ -135,5 +144,35 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
     _dateOfBirthDayController.text =
         DateFormat('dd/MM/yyyy').format(employee.dateOfBirth);
     _dateOfBirth = employee.dateOfBirth;
+  }
+
+  Future editEmployee() async {
+    final entity = EmployeeCompanion(
+      id: Value(widget.args),
+      userName: Value(_nameController.text),
+      firstName: Value(_firstNameController.text),
+      lastName: Value(_lastNameController.text),
+      dateOfBirth: Value(_dateOfBirth!),
+    );
+    await _appDB.updateEmployee(entity).then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Edit Employee successfully',
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          action: SnackBarAction(
+            label: 'Ok',
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+            },
+          ),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.white,
+        ),
+      );
+    });
   }
 }

@@ -145,7 +145,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
               action: SnackBarAction(
                 label: 'Ok',
                 onPressed: () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
                 },
               ),
               behavior: SnackBarBehavior.floating,
